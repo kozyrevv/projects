@@ -1,0 +1,138 @@
+# 3. Data preparation
+#####################################
+# Para manejarnos a lo largo de todo el script
+datos<-datosEstrategiaDigital
+
+# 1. La fecha en este caso va a ser un campo de identificación: lo hacemos factor
+colnames(datos)[1]<-"fecha"
+datos$fecha <- factor(datos$fecha)
+str(datos)
+summary(datos)
+
+# 2. En este caso, ya tiene el formato que nos gustaría, así que simplemente actualizamos el nombre de la columna
+colnames(datos)[2]<-"busquedasOrganicas"
+
+# 3. Avg..Session.Duration
+colnames(datos)[3]<-"duracionSesionMedia"
+x<-strptime(datos$duracionSesionMedia,"%H:%M:%S")
+y<-strftime(x, '%H:%M:%S')
+datos$duracionSesionMedia<-as.numeric(substring(y,4,5))*60 + as.numeric(substring(y,7,8))
+
+# 4. Bounces
+colnames(datos)[4]<-"rebotes"
+datos$rebotes<-gsub(",", "", datos$rebotes)
+datos$rebotes<-as.numeric(datos$rebotes)
+
+# 5. Exits
+colnames(datos)[5]<-"salidas"
+datos$salidas<-gsub(",", "", datos$salidas)
+datos$salidas<-as.numeric(datos$salidas)
+
+# 6. New.Users
+colnames(datos)[6]<-"nuevosUsuarios"
+datos$nuevosUsuarios<-gsub(",", "", datos$nuevosUsuarios)
+datos$nuevosUsuarios<-as.numeric(datos$nuevosUsuarios)
+
+# 7. Sessions
+colnames(datos)[7]<-"sesiones"
+datos$sesiones<-gsub(",", "", datos$sesiones)
+datos$sesiones<-as.numeric(datos$sesiones)
+
+# 8. Pageviews
+colnames(datos)[8]<-"paginasVistas"
+datos$paginasVistas<-gsub(",", "", datos$paginasVistas)
+datos$paginasVistas<-as.numeric(datos$paginasVistas)
+
+# 9. Avg..Order.Value
+colnames(datos)[9]<-"carritoMedio"
+datos$carritoMedio<-as.character(datos$carritoMedio)
+datos$carritoMedio<-substring(datos$carritoMedio,2,nchar(datos$carritoMedio))
+datos$carritoMedio<-as.numeric(datos$carritoMedio)
+
+# 10. Buy.to.Detail.Rate
+#   number of products purchased per number of product-detail views)
+colnames(datos)[10]<-"BDR"
+datos$BDR <- as.character(datos$BDR)
+datos$BDR <-substring(datos$BDR,1,nchar(datos$BDR)-1)
+datos$BDR <- as.numeric(datos$BDR)
+
+# 11. Cart.to.Detail.Rate 
+#   (number of products added per number of product-detail views)
+colnames(datos)[11]<-"CDR"
+datos$CDR <- as.character(datos$CDR)
+datos$CDR <-substring(datos$CDR,1,nchar(datos$CDR)-1)
+datos$CDR <- as.numeric(datos$CDR)
+
+# 12. Ecommerce.Conversion.Rate
+colnames(datos)[12]<-"CR"
+datos$CR <- as.character(datos$CR)
+datos$CR <-substring(datos$CR,1,nchar(datos$CR)-1)
+datos$CR <- as.numeric(datos$CR)
+
+# 13. Product.Adds.To.Cart 
+colnames(datos)[13]<-"PAC"
+datos$PAC <- as.character(datos$PAC)
+datos$PAC <- as.numeric(datos$PAC)
+
+# 14. Per.Session.Value
+colnames(datos)[14]<-"valorSesion"
+datos$valorSesion<-as.character(datos$valorSesion)
+datos$valorSesion<-substring(datos$valorSesion,2,nchar(datos$valorSesion))
+datos$valorSesion<-as.numeric(datos$valorSesion)
+
+# 15. Product.Removes.From.Cart
+colnames(datos)[15]<-"PRC"
+
+# 16. Transactions
+colnames(datos)[16]<-"transacciones"
+
+# 17. Refunds
+colnames(datos)[17]<-"devoluciones"
+sum(datos$devoluciones==0)
+nrow(datos)
+datos$devoluciones=NULL
+
+# 17. Product.List.CTR
+colnames(datos)[17]<-"PLCTR"
+datos$PLCTR <- as.character(datos$PLCTR)
+datos$PLCTR <-substring(datos$PLCTR,1,nchar(datos$PLCTR)-1)
+datos$PLCTR <- as.numeric(datos$PLCTR)
+
+# 18. Product.List.Clicks
+colnames(datos)[18]<-"PLC"
+
+# 19. Product.Checkouts 
+colnames(datos)[19]<-"checkouts"
+
+# 20. Revenue
+colnames(datos)[20]<-"ingresos"
+datos$ingresos<-as.character(datos$ingresos)
+datos$ingresos<-substring(datos$ingresos,2,nchar(datos$ingresos))
+datos$ingresos<-gsub(",", "", datos$ingresos)
+datos$ingresos<-as.numeric(datos$ingresos)
+
+# 21. Clicks
+colnames(datos)[21]<-"clicks"
+datos$clicks<-gsub(",", "", datos$clicks)
+datos$clicks<-as.numeric(datos$clicks)
+
+# 22. Cost.per.Conversion
+colnames(datos)[22]<-"CPA"
+datos$CPA<-as.character(datos$CPA)
+datos$CPA<-substring(datos$CPA,2,nchar(datos$CPA))
+datos$CPA<-as.numeric(datos$CPA)
+
+# 23. ROAS
+datos$ROAS <- as.character(datos$ROAS)
+datos$ROAS <-substring(datos$ROAS,1,nchar(datos$ROAS)-1)
+datos$ROAS <- as.numeric(datos$ROAS)
+
+# 24. CPC
+datos$CPC<-as.character(datos$CPC)
+datos$CPC<-substring(datos$CPC,2,nchar(datos$CPC))
+datos$CPC<-as.numeric(datos$CPC)
+
+# 25. CTR
+datos$CTR <- as.character(datos$CTR)
+datos$CTR <-substring(datos$CTR,1,nchar(datos$CTR)-1)
+datos$CTR <- as.numeric(datos$CTR)
